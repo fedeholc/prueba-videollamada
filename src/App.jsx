@@ -121,6 +121,23 @@ function App() {
 
   async function handleStartWebcam() {
     console.log("Starting webcam");
+    // Verificar permisos de la cámara
+    try {
+      const permissionStatus = await navigator.permissions.query({
+        name: "camera",
+      });
+      console.log("Permission for camera:", permissionStatus.state);
+
+      if (permissionStatus.state === "denied") {
+        alert(
+          "El acceso a la cámara está bloqueado. Verifica tus permisos en la configuración del navegador."
+        );
+        return; // Salir de la función si el acceso está bloqueado
+      }
+    } catch (error) {
+      console.error("Error al verificar permisos:", error);
+    }
+
     try {
       lsRef.current = await navigator.mediaDevices.getUserMedia({
         video: true,
