@@ -319,6 +319,7 @@ function App() {
             ref={webcamVideoRef}
             id="webcamVideo"
             autoPlay
+            muted
             playsInline
           ></video>
         </span>
