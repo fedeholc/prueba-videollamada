@@ -4,6 +4,18 @@ body {
   color: #2c3e50;
 }
 
+button {
+  cursor: pointer;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
 video {
   width: 40vw;
   height: 30vw;
