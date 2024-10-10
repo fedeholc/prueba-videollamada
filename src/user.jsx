@@ -1,13 +1,10 @@
-import { useNavigate } from "react-router-dom";
 import "./App.css";
 import { useState } from "react";
 
-function App() {
+function User() {
   const [userId, setUserId] = useState("");
   const [roomUrl, setRoomUrl] = useState("");
-  const navigate = useNavigate();
-
-  //random 7 digitos
+  const [roomId, setRoomId] = useState("");
 
   return (
     <div className="app">
@@ -29,7 +26,21 @@ function App() {
             return;
           }
           const randomNumber = Math.floor(1000000 + Math.random() * 9000000);
-          setRoomUrl(`${window.location.origin}/vl/${userId}-${randomNumber}`);
+          let roomId = `${userId}-${randomNumber}`;
+          setRoomId(roomId);
+          setRoomUrl(`${window.location.origin}/vl/${roomId}`);
+          const date = Date.now();
+          fetch("https://192.168.0.59:1234/insert-room", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              user: userId,
+              roomId: `${roomId}`,
+              date: date.toString(),
+            }),
+          });
         }}
       >
         Solicitar Videollamada
@@ -37,18 +48,15 @@ function App() {
       {roomUrl && (
         <div>
           <p>
-            {" "}
             Para realizar la videollamada ingrese al siguiente enlace y aguarde
-            a ser atendido/a:{" "}
+            a ser atendido/a:
           </p>
 
-          <a href={`/vl/${userId}`}>{userId !== "" ? roomUrl : ""}</a>
+          <a href={`/vl/${roomId}`}>{userId !== "" ? roomUrl : ""}</a>
         </div>
       )}
-      {/* 
-      <button onClick={() => navigate(`/vl/${userId}`)}>Ir a la sala</button> */}
     </div>
   );
 }
 
-export default App;
+export default User;
